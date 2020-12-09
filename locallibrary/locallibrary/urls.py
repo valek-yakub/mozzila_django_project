@@ -13,6 +13,7 @@ Including another URLconf
     1. Import the include() function: from django.urls import include, path
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
+import debug_toolbar
 from django.contrib import admin
 from django.urls import path
 from django.views.generic import RedirectView
@@ -27,6 +28,7 @@ from django.urls import include
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('catalog/', include('catalog.urls')),
+    path('__debug__/', include(debug_toolbar.urls)),
 ]
 
 # Use static() to add url mapping to serve static files during development (only)

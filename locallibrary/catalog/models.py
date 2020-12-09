@@ -30,6 +30,14 @@ class Book(models.Model):
     # languages = models.ManyToManyField("Language", help_text="Select a language for this book.")
     # ManyToManyField used because language can contain many books. Books can cover many language.
 
+    def display_genre(self):
+        """
+        Creates a string for the Genre. This is required to display genre in Admin.
+        """
+        return ', '.join([genre.name for genre in self.genre.all()[:3]])
+
+    display_genre.short_description = 'Genre'
+
     def __str__(self):
         """
         String for representing the Model object.
@@ -105,7 +113,7 @@ class BookInstance(models.Model):
         """
         String for representing the Model object
         """
-        return f'{self.id}  {self.book.title}  {self.due_back}'
+        return f'{self.book.title}'
 
 
 class Language(models.Model):
