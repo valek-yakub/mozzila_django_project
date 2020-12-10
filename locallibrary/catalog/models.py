@@ -12,6 +12,11 @@ class Book(models.Model):
     """
     Model representing a book (but not a specific copy of a book).
     """
+
+    class Meta:
+        verbose_name = "Book"
+        verbose_name_plural = "Books"
+
     title = models.CharField(max_length=200)
     author = models.ForeignKey('Author', on_delete=models.SET_NULL, null=True)
     # Foreign Key used because book can only have one author, but authors can have multiple books
@@ -27,6 +32,7 @@ class Book(models.Model):
 
     languages = models.ForeignKey("Language", on_delete=models.SET_NULL, null=True,
                                   help_text="Select a language for this book")
+
     # languages = models.ManyToManyField("Language", help_text="Select a language for this book.")
     # ManyToManyField used because language can contain many books. Books can cover many language.
 

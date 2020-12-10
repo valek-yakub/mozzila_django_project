@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <!-- Latest compiled and minified CSS -->
+        <!-- BOOTSTRAP 4 -->
+        <link rel="stylesheet"
+              href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+        {% block title %}<title>Local Library</title>{% endblock %}
+    </head>
+    <body>
+        <div class="content container">
+            {% block sidebar %}<!-- insert default navigation text for every page -->{% endblock %}
+            {% block content %}<!-- default content text (typically empty) -->{% endblock %}
+        </div>
+    </body>
+</html>
