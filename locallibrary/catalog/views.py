@@ -18,15 +18,16 @@ def index(request):
     num_instance_available = BookInstance.objects.filter(status__exact='a').count()
     num_authors = Author.objects.count()
 
+    num_books_lookup = Book.objects.filter(title__icontains="divine").count()
+
     # Rendering HTML template 'index.html' with data are inside
     # 'context' variable.
-    return render(
-        request,
-        "index.html",
-        context={
-            'num_books': num_books,
-            'num_instances': num_instances,
-            'num_instances_available': num_instance_available,
-            'num_author': num_authors
-        }
-    )
+    context = {
+        'num_books': num_books,
+        'num_instances': num_instances,
+        'num_instances_available': num_instance_available,
+        'num_authors': num_authors,
+        'num_books_lookup': num_books_lookup
+    }
+
+    return render(request, "index.html", context)
