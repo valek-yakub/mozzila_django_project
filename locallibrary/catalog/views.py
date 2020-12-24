@@ -1,6 +1,8 @@
 from django.shortcuts import render
 
 # Create your views here.
+from django.views.generic import ListView, DetailView
+
 from catalog.models import Book, BookInstance, Author
 
 
@@ -31,3 +33,33 @@ def index(request):
     }
 
     return render(request, "index.html", context)
+
+
+class BookListView(ListView):
+    """
+        View displays a list of all books.
+    """
+    model: Book = Book
+
+    def get_queryset(self):
+        return Book.objects.all()    # Получить 5 книг, содержащих 'war' в заголовке
+
+    def get_context_data(self, **kwargs):
+        # В первую очередь получаем базовую реализацию контекста
+        context = super(BookListView, self).get_context_data(**kwargs)
+        # Добавляем новую переменную к контексту и иниуиализируем ее некоторым значением
+        context['some_data'] = 'This is just some data'
+        return context
+
+
+class BookDetailView(DetailView):
+    """
+        View displays detail information about book.
+    """
+
+    model: Book = Book
+
+    def get_queryset(self):
+        # book = Book.objects.prefetch_related("genre").filter(title__icontains='war')
+        book = Book.objects.prefetch_related("genre")
+        return book
