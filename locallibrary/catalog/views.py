@@ -3,7 +3,7 @@ from django.shortcuts import render
 # Create your views here.
 from django.views.generic import ListView, DetailView
 
-from catalog.models import Book, BookInstance, Author
+from .models import Book, BookInstance, Author
 
 
 def index(request):
@@ -42,7 +42,8 @@ class BookListView(ListView):
     model: Book = Book
 
     def get_queryset(self):
-        return Book.objects.all()    # Получить 5 книг, содержащих 'war' в заголовке
+        return Book.objects.filter(title__icontains="war")    # Получить 5 книг, содержащих 'war' в заголовке
+        # return Book.objects.prefetch_related("author")
 
     def get_context_data(self, **kwargs):
         # В первую очередь получаем базовую реализацию контекста
@@ -60,6 +61,5 @@ class BookDetailView(DetailView):
     model: Book = Book
 
     def get_queryset(self):
-        # book = Book.objects.prefetch_related("genre").filter(title__icontains='war')
-        book = Book.objects.prefetch_related("genre")
+        book = Book.objects.prefetch_related("genre").filter(title__icontains='war')
         return book
