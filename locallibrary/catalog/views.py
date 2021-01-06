@@ -40,10 +40,11 @@ class BookListView(ListView):
         View displays a list of all books.
     """
     model: Book = Book
+    paginate_by = 10
 
     def get_queryset(self):
-        return Book.objects.filter(title__icontains="war")    # Получить 5 книг, содержащих 'war' в заголовке
-        # return Book.objects.prefetch_related("author")
+        # return Book.objects.filter(title__icontains="war")    # Получить 5 книг, содержащих 'war' в заголовке
+        return Book.objects.prefetch_related("author")  # Все книги с полем авторов.
 
     def get_context_data(self, **kwargs):
         # В первую очередь получаем базовую реализацию контекста
@@ -61,5 +62,36 @@ class BookDetailView(DetailView):
     model: Book = Book
 
     def get_queryset(self):
-        book = Book.objects.prefetch_related("genre").filter(title__icontains='war')
+        book = Book.objects.prefetch_related("genre")
         return book
+
+
+class AuthorListView(ListView):
+    """
+        View displays a list of all authors.
+    """
+    model: Author = Author
+    paginate_by = 10
+
+    # def get_queryset(self):
+    #     # return Book.objects.filter(title__icontains="war")    # Получить 5 книг, содержащих 'war' в заголовке
+    #     return Author.objects.prefetch_related("author")  # Все книги с полем авторов.
+
+    def get_context_data(self, **kwargs):
+        # В первую очередь получаем базовую реализацию контекста
+        context = super(AuthorListView, self).get_context_data(**kwargs)
+        # Добавляем новую переменную к контексту и иниуиализируем ее некоторым значением
+        context['some_data'] = 'This is just some data'
+        return context
+
+
+class AuthorDetailView(DetailView):
+    """
+        View displays detail information about author.
+    """
+
+    model: Author = Author
+
+    # def get_queryset(self):
+    #     author = Author.objects.prefetch_related("book_set")
+    #     return author
