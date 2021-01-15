@@ -21,6 +21,8 @@ def index(request):
     num_authors = Author.objects.count()
 
     num_books_lookup = Book.objects.filter(title__icontains="divine").count()
+    num_visits = request.session.get("num_visits", 1)
+    request.session["num_visits"] = num_visits + 1
 
     # Rendering HTML template 'index.html' with data are inside
     # 'context' variable.
@@ -29,7 +31,8 @@ def index(request):
         'num_instances': num_instances,
         'num_instances_available': num_instance_available,
         'num_authors': num_authors,
-        'num_books_lookup': num_books_lookup
+        'num_books_lookup': num_books_lookup,
+        'num_visits': num_visits
     }
 
     return render(request, "index.html", context)
@@ -92,6 +95,4 @@ class AuthorDetailView(DetailView):
 
     model: Author = Author
 
-    # def get_queryset(self):
-    #     author = Author.objects.prefetch_related("book_set")
-    #     return author
+
