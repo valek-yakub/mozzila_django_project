@@ -124,4 +124,6 @@ STATIC_ROOT = BASE_DIR / 'staticfiles'  # . os.path.join(BASE_DIR, 'staticfiles'
 # The URL to use when referring to static files (where they will be served from)
 STATIC_URL = '/static/'
 
+# Log in/out redirection
 LOGIN_REDIRECT_URL = '/'
+LOGOUT_REDIRECT_URL = '/'
